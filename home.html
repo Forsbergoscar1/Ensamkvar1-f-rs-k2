@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Nora – Mappar</title>
+  <title>Nora – Utforskare</title>
   <link rel="stylesheet" href="css/style.css" />
   <script defer src="js/guard.js"></script>
 </head>
@@ -13,14 +13,22 @@
     <a class="logout" href="#" id="logoutBtn">Lås</a>
   </header>
 
-  <main class="grid">
-    <a class="folder" href="folders/dagbok.html">
-      <div class="icon">📁</div><div class="name">Dagbok</div>
-    </a>
-    <a class="folder" href="folders/foton.html">
-      <div class="icon">📁</div><div class="name">Foton</div>
-    </a>
-    <!-- Lägg fler länkar här senare (SMS, Ljud, Dokument, Platser…) -->
+  <!-- Vertikal lista med mappar -->
+  <main class="explorer-pane">
+    <div class="folder-list">
+      <a class="row" href="folders/dagbok.html">
+        <span class="ico">📁</span><span class="label">Dagbok</span>
+      </a>
+      <a class="row" href="folders/foton.html">
+        <span class="ico">📁</span><span class="label">Foton</span>
+      </a>
+      <!-- Lägg fler rader här vid behov:
+      <a class="row" href="folders/sms.html"><span class="ico">📁</span><span class="label">SMS</span></a>
+      <a class="row" href="folders/ljud.html"><span class="ico">📁</span><span class="label">Ljud</span></a>
+      <a class="row" href="folders/dokument.html"><span class="ico">📁</span><span class="label">Dokument</span></a>
+      <a class="row" href="folders/platser.html"><span class="ico">📁</span><span class="label">Platser</span></a>
+      -->
+    </div>
   </main>
 
   <script src="js/ui.js"></script>
