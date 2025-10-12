@@ -131,7 +131,7 @@ main{
 #loginForm{ display:flex; flex-direction:column; gap:12px; margin-top:12px }
 #loginForm input{
   padding:12px 14px; border-radius:10px; border:1px solid var(--border);
-  background:#0c0c0c; color:var(--text);
+  background:#0c0c0c; color:#fff;
 }
 #loginForm button{
   padding:12px 14px; border:0; border-radius:10px;
@@ -150,5 +150,40 @@ main{
   padding:24px; z-index:50;
 }
 .lightbox img{ max-width:90vw; max-height:70vh; display:block; border-radius:12px; }
-.lightbox .caption{ color:var(--muted); margin-top:8px; text-align:center; }
+.lightbox .caption{ color:#bbb; margin-top:8px; text-align:center; }
 .lightbox .close{ position:absolute; top:14px; right:18px; font-size:28px; background:transparent; border:0; color:#fff; cursor:pointer; }
+
+/* =========================================================
+   ==== Nora dagbok: hårdlås för mobil/dator (ÖVERSTYRNING) ====
+   ========================================================= */
+html,body{overflow-x:hidden; touch-action:pan-y;}
+
+.gallery{
+  width:100%;
+  max-width:1000px;
+  margin:24px auto;
+  padding:0 8px;
+  display:grid;
+  gap:10px;
+  grid-template-columns:repeat(2, minmax(0,1fr));  /* mobil: 2 */
+  justify-items:stretch;
+  align-items:start;
+}
+@media (min-width:700px){
+  .gallery{ grid-template-columns:repeat(3, minmax(0,1fr)); } /* tablet: 3 */
+}
+@media (min-width:1024px){
+  .gallery{ grid-template-columns:repeat(4, minmax(0,1fr)); } /* desktop: 4 */
+}
+
+.tile{ width:100%; background:transparent; border:0; padding:0; text-align:center; }
+.tile img{
+  width:100%;
+  height:auto;                 /* ingen beskärning */
+  object-fit:contain;
+  object-position:center;
+  display:block;
+  border-radius:12px;
+  background:#000;
+}
+.tile figcaption{ text-align:center; color:var(--muted); margin-top:8px; font-size:14px; }
