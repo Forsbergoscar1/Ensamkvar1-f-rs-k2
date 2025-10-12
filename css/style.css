@@ -15,72 +15,101 @@ html,body{
   font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;
 }
 
-main{ width:min(1100px,92%); margin:32px auto; }
+main{ width:min(1200px,92%); margin:32px auto; }
 
-/* Topbar */
+/* === Topbar === */
 .topbar{
   position:relative; width:100%;
   display:flex; justify-content:center; align-items:center;
-  padding:16px; border-bottom:1px solid var(--border); background:#0a0a0a;
+  padding:16px;
+  border-bottom:1px solid var(--border);
+  background:#0a0a0a;
 }
-.crumb{color:var(--muted);text-decoration:none;margin:0 6px}
+.crumb{
+  color:var(--muted);
+  text-decoration:none;
+  margin:0 6px;
+  font-weight:500;
+}
 .crumb:hover{color:var(--text)}
 .logout{
-  position:absolute; right:18px; top:50%; transform:translateY(-50%);
-  color:var(--muted); text-decoration:none;
+  position:absolute;
+  right:18px;
+  top:50%;
+  transform:translateY(-50%);
+  color:var(--muted);
+  text-decoration:none;
+  font-size:15px;
 }
 .logout:hover{color:var(--text)}
 
 /* =========================
-   UTFORSKAR-LISTA (vertikal, inga ramar)
+   UTFORSKAR-LISTA (mappar)
    ========================= */
-.explorer-pane{ width:min(800px,92%); margin:32px auto; }
-.folder-list{ display:flex; flex-direction:column; gap:8px; }
-
+.explorer-pane{
+  width:min(800px,92%);
+  margin:32px auto;
+}
+.folder-list{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
 .row{
-  display:flex; align-items:center; gap:12px;
-  padding:14px 4px;                 /* ingen bakgrund/ram */
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px 4px;
   background:transparent;
-  border:none; border-radius:0;
-  text-decoration:none; color:var(--text);
+  border:none;
+  border-radius:0;
+  text-decoration:none;
+  color:var(--text);
   transition:background .12s ease;
 }
-.row:hover{ background:rgba(255,255,255,.06); }
-.row .ico{ font-size:20px; width:24px; display:inline-block; }
-.row .label{ font-weight:600; }
+.row:hover{
+  background:rgba(255,255,255,.06);
+}
+.row .ico{
+  font-size:20px;
+  width:24px;
+  display:inline-block;
+}
+.row .label{
+  font-weight:600;
+}
 
 /* =========================
    GALLERI (bilder)
-   - 2 per rad på mobil
-   - skalar upp till fler på större skärmar
    ========================= */
 .gallery{
-  width:min(1100px,92%);
+  width:min(1200px,92%);
   margin:24px auto;
   display:grid;
-  grid-template-columns:repeat(2, 1fr); /* MOBIL: 2 per rad */
-  gap:10px;
-  justify-items:center;
+  gap:12px;
+  grid-template-columns: repeat(2, 1fr); /* mobil */
+  justify-items:stretch;
 }
 
 @media (min-width:700px){
-  .gallery{ grid-template-columns:repeat(3, 1fr); } /* surfplatta */
+  .gallery{ grid-template-columns: repeat(3, 1fr); } /* surfplatta */
 }
-@media (min-width:1000px){
-  .gallery{ grid-template-columns:repeat(4, 1fr); } /* desktop */
+@media (min-width:1024px){
+  .gallery{ grid-template-columns: repeat(4, 1fr); } /* desktop */
 }
 
 .tile{
-  width:100%;
-  max-width:none;            /* låt kolumnbredd styra */
-  background:transparent;    /* inga ramar/boxar */
+  background:transparent;
   border:none;
   border-radius:0;
   padding:0;
 }
 .tile img{
-  width:100%; height:auto; display:block;
-  border-radius:8px;         /* lite mjukt hörn, valfritt */
+  width:100%;
+  height:200px;             /* styr höjden */
+  object-fit:cover;         /* beskär snyggt */
+  display:block;
+  border-radius:8px;
 }
 .tile figcaption{
   color:var(--muted);
@@ -89,34 +118,83 @@ main{ width:min(1100px,92%); margin:32px auto; }
   text-align:center;
 }
 
-/* Lösenordsrutan (oförändrad utseendemässigt) */
-.gate{ display:grid; place-items:center; min-height:100dvh }
-.gate-card{
-  width:min(480px,92%); background:var(--surface);
-  border:1px solid var(--border); border-radius:16px; padding:24px;
-  box-shadow:0 10px 28px rgba(0,0,0,.45); text-align:center;
+/* =========================
+   LÖSENORDSSIDAN (gate)
+   ========================= */
+.gate{
+  display:grid;
+  place-items:center;
+  min-height:100dvh;
 }
-.gate-card h1{ margin:0 0 6px } .gate-card p{ color:var(--muted) }
-#loginForm{ display:flex; flex-direction:column; gap:12px; margin-top:12px }
+.gate-card{
+  width:min(480px,92%);
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:24px;
+  box-shadow:0 10px 28px rgba(0,0,0,.45);
+  text-align:center;
+}
+.gate-card h1{margin:0 0 6px}
+.gate-card p{color:var(--muted)}
+#loginForm{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  margin-top:12px;
+}
 #loginForm input{
-  padding:12px 14px; border-radius:10px; border:1px solid var(--border);
-  background:#0c0c0c; color:var(--text);
+  padding:12px 14px;
+  border-radius:10px;
+  border:1px solid var(--border);
+  background:#0c0c0c;
+  color:var(--text);
 }
 #loginForm button{
-  padding:12px 14px; border:0; border-radius:10px;
-  background:var(--accent); color:#fff; font-weight:700; cursor:pointer;
+  padding:12px 14px;
+  border:0;
+  border-radius:10px;
+  background:var(--accent);
+  color:#fff;
+  font-weight:700;
+  cursor:pointer;
 }
-.err{ color:#ff6b6b; min-height:1.2em }
+.err{
+  color:#ff6b6b;
+  min-height:1.2em;
+}
 
-/* Lightbox */
-.lightbox[hidden]{ display:none }
+/* =========================
+   LIGHTBOX (om du använder)
+   ========================= */
+.lightbox[hidden]{display:none}
 .lightbox{
-  position:fixed; inset:0; background:rgba(0,0,0,.88);
-  display:grid; place-items:center; padding:24px; z-index:50;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.88);
+  display:grid;
+  place-items:center;
+  padding:24px;
+  z-index:50;
 }
-.lightbox img{ max-width:90vw; max-height:70vh; display:block; border-radius:12px }
-.lightbox .caption{ color:var(--muted); margin-top:8px; text-align:center }
+.lightbox img{
+  max-width:90vw;
+  max-height:70vh;
+  display:block;
+  border-radius:12px;
+}
+.lightbox .caption{
+  color:var(--muted);
+  margin-top:8px;
+  text-align:center;
+}
 .lightbox .close{
-  position:absolute; top:14px; right:18px; font-size:28px;
-  background:transparent; border:0; color:#fff; cursor:pointer;
+  position:absolute;
+  top:14px;
+  right:18px;
+  font-size:28px;
+  background:transparent;
+  border:0;
+  color:#fff;
+  cursor:pointer;
 }

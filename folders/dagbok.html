@@ -1,18 +1,126 @@
-<main class="gallery">
-  <figure class="tile">
-    <img src="../assets/img/tystad-rost.jpg" alt="Tystad Röst" />
-    <figcaption>Tystad Röst – Dagboksanteckning</figcaption>
-  </figure>
-  <figure class="tile">
-    <img src="../assets/img/tystad-rost.jpg" alt="Tystad Röst" />
-    <figcaption>Tystad Röst – Dagboksanteckning</figcaption>
-  </figure>
-  <figure class="tile">
-    <img src="../assets/img/tystad-rost.jpg" alt="Tystad Röst" />
-    <figcaption>Tystad Röst – Dagboksanteckning</figcaption>
-  </figure>
-  <figure class="tile">
-    <img src="../assets/img/tystad-rost.jpg" alt="Tystad Röst" />
-    <figcaption>Tystad Röst – Dagboksanteckning</figcaption>
-  </figure>
-</main>
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nora – Dagbok</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <script defer src="../js/guard.js"></script>
+  <style>
+    :root{
+      --bg:#000;
+      --surface:#121212;
+      --border:#333;
+      --text:#fff;
+      --muted:#bbb;
+      --accent:#a31621;
+    }
+
+    *{box-sizing:border-box}
+
+    html,body{
+      margin:0; padding:0; height:100%;
+      background:var(--bg); color:var(--text);
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;
+    }
+
+    main{ width:min(1200px,92%); margin:32px auto; }
+
+    /* Topbar */
+    .topbar{
+      position:relative; width:100%;
+      display:flex; justify-content:center; align-items:center;
+      padding:16px; border-bottom:1px solid var(--border); background:#0a0a0a;
+    }
+    .crumb{color:var(--muted);text-decoration:none;margin:0 6px}
+    .crumb:hover{color:var(--text)}
+    .logout{
+      position:absolute; right:18px; top:50%; transform:translateY(-50%);
+      color:var(--muted); text-decoration:none;
+    }
+    .logout:hover{color:var(--text)}
+
+    /* === Galleri: 2 per rad (mobil), 3 (tablet), 4 (desktop) === */
+    .gallery{
+      width:min(1200px,92%);
+      margin:24px auto;
+      display:grid;
+      gap:12px;
+      grid-template-columns: repeat(2, 1fr); /* mobil */
+      justify-items: stretch;
+    }
+
+    @media (min-width:700px){
+      .gallery{ grid-template-columns: repeat(3, 1fr); } /* surfplatta */
+    }
+    @media (min-width:1024px){
+      .gallery{ grid-template-columns: repeat(4, 1fr); } /* desktop */
+    }
+
+    .tile{
+      background:transparent;
+      border:none;
+      border-radius:0;
+      padding:0;
+    }
+
+    .tile img{
+      width:100%;
+      height:200px;
+      object-fit:cover;
+      display:block;
+      border-radius:8px;
+    }
+
+    .tile figcaption{
+      color:var(--muted);
+      margin-top:6px;
+      font-size:14px;
+      text-align:center;
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="crumb"><a href="../home.html" style="color:inherit;text-decoration:none;">Nora</a> / Dagbok</div>
+    <a class="logout" href="#" id="logoutBtn">Lås</a>
+  </header>
+
+  <main class="gallery">
+    <figure class="tile">
+      <img src="../assets/img/tystad-rost.jpg" alt="Tystad Röst 1" />
+      <figcaption>Tystad Röst – Dagboksanteckning 1</figcaption>
+    </figure>
+    <figure class="tile">
+      <img src="../assets/img/tystad-rost.jpg" alt="Tystad Röst 2" />
+      <figcaption>Tystad Röst – Dagboksanteckning 2</figcaption>
+    </figure>
+    <figure class="tile">
+      <img src="../assets/img/tystad-rost.jpg" alt="Tystad Röst 3" />
+      <figcaption>Tystad Röst – Dagboksanteckning 3</figcaption>
+    </figure>
+    <figure class="tile">
+      <img src="../assets/img/tystad-rost.jpg" alt="Tystad Röst 4" />
+      <figcaption>Tystad Röst – Dagboksanteckning 4</figcaption>
+    </figure>
+    <figure class="tile">
+      <img src="../assets/img/tystad-rost.jpg" alt="Tystad Röst 5" />
+      <figcaption>Tystad Röst – Dagboksanteckning 5</figcaption>
+    </figure>
+    <figure class="tile">
+      <img src="../assets/img/tystad-rost.jpg" alt="Tystad Röst 6" />
+      <figcaption>Tystad Röst – Dagboksanteckning 6</figcaption>
+    </figure>
+    <figure class="tile">
+      <img src="../assets/img/tystad-rost.jpg" alt="Tystad Röst 7" />
+      <figcaption>Tystad Röst – Dagboksanteckning 7</figcaption>
+    </figure>
+    <figure class="tile">
+      <img src="../assets/img/tystad-rost.jpg" alt="Tystad Röst 8" />
+      <figcaption>Tystad Röst – Dagboksanteckning 8</figcaption>
+    </figure>
+  </main>
+
+  <script src="../js/ui.js"></script>
+</body>
+</html>
