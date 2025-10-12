@@ -6,6 +6,7 @@
   <title>Nora – Dagbok</title>
   <link rel="stylesheet" href="../css/style.css" />
   <script defer src="../js/guard.js"></script>
+
   <style>
     :root{
       --bg:#000;
@@ -15,16 +16,12 @@
       --muted:#bbb;
       --accent:#a31621;
     }
-
     *{box-sizing:border-box}
-
     html,body{
       margin:0; padding:0; height:100%;
       background:var(--bg); color:var(--text);
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;
     }
-
-    main{ width:min(1200px,92%); margin:32px auto; }
 
     /* Topbar */
     .topbar{
@@ -40,41 +37,46 @@
     }
     .logout:hover{color:var(--text)}
 
-    /* === Galleri: 2 per rad (mobil), 3 (tablet), 4 (desktop) === */
+    /* ======= GALLERI ======= */
+    /* 2 kolumner på mobil, 3 på tablet, 4 på desktop */
     .gallery{
       width:min(1200px,92%);
       margin:24px auto;
       display:grid;
-      gap:12px;
-      grid-template-columns: repeat(2, 1fr); /* mobil */
-      justify-items: stretch;
+      gap:16px;
+      grid-template-columns:repeat(2, minmax(0,1fr)); /* mobil */
+      justify-items:center;
+      align-items:start;
     }
-
     @media (min-width:700px){
-      .gallery{ grid-template-columns: repeat(3, 1fr); } /* surfplatta */
+      .gallery{ grid-template-columns:repeat(3, minmax(0,1fr)); }
     }
     @media (min-width:1024px){
-      .gallery{ grid-template-columns: repeat(4, 1fr); } /* desktop */
+      .gallery{ grid-template-columns:repeat(4, minmax(0,1fr)); }
     }
 
     .tile{
+      width:100%;
+      text-align:center;
       background:transparent;
       border:none;
-      border-radius:0;
       padding:0;
     }
 
+    /* NYCKELN: visa hela bilden, aldrig beskäras */
     .tile img{
       width:100%;
-      height:200px;
-      object-fit:cover;
+      height:auto;            /* ingen tvångshöjd → inget klipps */
+      object-fit:contain;     /* säkerhetsnät om höjd sätts någon annanstans */
+      object-position:center; /* centrerad */
       display:block;
-      border-radius:8px;
+      border-radius:12px;
+      background:#000;        /* svart runt om om den inte fyller helt */
     }
 
     .tile figcaption{
       color:var(--muted);
-      margin-top:6px;
+      margin-top:8px;
       font-size:14px;
       text-align:center;
     }

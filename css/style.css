@@ -13,21 +13,21 @@ html,body{
   margin:0; padding:0; height:100%;
   background:var(--bg); color:var(--text);
   font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;
-  overflow-x:hidden;              /* 🔒 HELT låst sidled */
-  touch-action: pan-y;            /* 🔒 endast vertikal scroll */
+  overflow-x:hidden;          /* 🔒 ingen sidleds-scroll */
+  touch-action: pan-y;        /* 🔒 bara vertikal swipe */
 }
 
+/* Huvudbredd: aldrig större än skärmen på mobil */
 main{
   width:100%;
-  max-width:1000px;               /* stryp maxbredd så inget spiller över */
+  max-width:1000px;
   margin:24px auto;
-  padding:0 12px;                 /* inre padding istället för bredda layouten */
+  padding:0 8px;              /* lite inre luft utan att skapa overflow */
 }
 
 /* === Topbar === */
 .topbar{
-  position:sticky; top:0;
-  z-index:5;
+  position:sticky; top:0; z-index:5;
   display:flex; justify-content:center; align-items:center;
   padding:12px 8px;
   border-bottom:1px solid var(--border);
@@ -35,21 +35,13 @@ main{
 }
 .crumb{ color:var(--muted); text-decoration:none; margin:0 6px; font-weight:500; }
 .crumb:hover{ color:var(--text) }
-.logout{
-  position:absolute; right:12px; top:50%; transform:translateY(-50%);
-  color:var(--muted); text-decoration:none; font-size:15px;
-}
+.logout{ position:absolute; right:12px; top:50%; transform:translateY(-50%); color:var(--muted); text-decoration:none; font-size:15px; }
 .logout:hover{ color:var(--text) }
 
 /* =========================
    UTFORSKAR-LISTA (mappar)
    ========================= */
-.explorer-pane{
-  width:100%;
-  max-width:800px;
-  margin:24px auto;
-  padding:0 12px;
-}
+.explorer-pane{ width:100%; max-width:800px; margin:24px auto; padding:0 8px; }
 .folder-list{ display:flex; flex-direction:column; gap:6px; }
 .row{
   display:flex; align-items:center; gap:10px;
@@ -63,57 +55,55 @@ main{
 .row .label{ font-weight:600; }
 
 /* =========================
-   GALLERI (bilder) – SMALARE KORT, INGEN HOR-SCROLL
+   GALLERI (bilder) – MOBIL FUNKAR ALLTID
    ========================= */
+/* Viktigt: inga max-widths på .tile som kan tvinga bredden att spilla över. */
 .gallery{
   width:100%;
   margin:16px auto 24px;
-  padding:0 6px;                               /* lite inre luft, ingen overflow */
   display:grid;
-  gap:10px;
-  grid-template-columns: repeat(2, minmax(0, 1fr));  /* MOBIL: 2 kolumner */
-  justify-items:center;
+  gap:8px;                                        /* liten gap → får plats */
+  grid-template-columns: repeat(2, 1fr);          /* ✅ alltid 2 kolumner på mobil */
+  justify-items:stretch;                           /* fyll kolumnens bredd */
   align-items:start;
 }
 
 @media (min-width:700px){
-  .gallery{
-    gap:12px;
-    grid-template-columns: repeat(3, minmax(0, 1fr)); /* surfplatta */
-  }
+  .gallery{ gap:10px; grid-template-columns: repeat(3, 1fr); }  /* tablet */
 }
 @media (min-width:1024px){
   .gallery{
-    gap:14px;
-    grid-template-columns: repeat(4, minmax(0, 1fr)); /* desktop */
-    max-width:1000px;                                 /* hårt lock */
+    gap:12px;
+    grid-template-columns: repeat(4, 1fr);        /* desktop */
+    max-width:1000px;                              /* lås totalbredd */
     margin-left:auto; margin-right:auto;
   }
 }
 
+/* Korten: inga max-width-lås. Låt griden styra bredden. */
 .tile{
   width:100%;
-  max-width:220px;                        /* 🔽 gör korten mindre */
   text-align:center;
-  background:transparent; border:none; padding:0;
+  background:transparent;
+  border:none;
+  padding:0;
 }
 
+/* Bilden: hela ska synas, ingen beskärning, lite mindre på mobil */
 .tile img{
   width:100%;
-  height:auto;                            /* ingen tvingad höjd → ingen beskärning */
-  aspect-ratio: 1 / 1;                    /* håll rutan kvadratisk och jämn */
-  max-height:180px;                       /* 🔽 liten höjd på mobil */
-  object-fit:contain;                     /* visa HELA bilden */
-  object-position:center;                 /* centrerad */
+  height:auto;                /* 👈 ingen tvingad höjd → inget klipp */
+  object-fit:contain;         /* 👈 visa HELA bilden */
+  object-position:center;
   display:block;
   border-radius:10px;
-  background:#000;                        /* svart runt om vid letterbox */
+  background:#000;
 }
 
-/* stryp dem ytterligare lite på desktop för att garantera 4/rad utan spill */
-@media (min-width:1024px){
-  .tile{ max-width:200px; }
-  .tile img{ max-height:200px; }
+/* Vill du göra dem ÄNNU mindre på riktigt smal mobil? */
+@media (max-width:360px){
+  .gallery{ gap:6px; }
+  .tile img{ transform: scale(.94); transform-origin:center; } /* subtil krympning */
 }
 
 .tile figcaption{
@@ -150,7 +140,7 @@ main{
 .err{ color:#ff6b6b; min-height:1.2em; }
 
 /* =========================
-   LIGHTBOX (om du använder)
+   LIGHTBOX
    ========================= */
 .lightbox[hidden]{display:none}
 .lightbox{
@@ -159,12 +149,6 @@ main{
   display:grid; place-items:center;
   padding:24px; z-index:50;
 }
-.lightbox img{
-  max-width:90vw; max-height:70vh;
-  display:block; border-radius:12px;
-}
+.lightbox img{ max-width:90vw; max-height:70vh; display:block; border-radius:12px; }
 .lightbox .caption{ color:var(--muted); margin-top:8px; text-align:center; }
-.lightbox .close{
-  position:absolute; top:14px; right:18px; font-size:28px;
-  background:transparent; border:0; color:#fff; cursor:pointer;
-}
+.lightbox .close{ position:absolute; top:14px; right:18px; font-size:28px; background:transparent; border:0; color:#fff; cursor:pointer; }
