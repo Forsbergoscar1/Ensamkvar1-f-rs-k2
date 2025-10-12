@@ -67,32 +67,26 @@ main{ width:min(1200px,92%); margin:32px auto; }
   color:var(--text);
   transition:background .12s ease;
 }
-.row:hover{
-  background:rgba(255,255,255,.06);
-}
-.row .ico{
-  font-size:20px;
-  width:24px;
-  display:inline-block;
-}
-.row .label{
-  font-weight:600;
-}
+.row:hover{ background:rgba(255,255,255,.06); }
+.row .ico{ font-size:20px; width:24px; display:inline-block; }
+.row .label{ font-weight:600; }
 
 /* =========================
    GALLERI (bilder)
+   – Mobil 2 kolumner, Tablet 3, Desktop 4
+   – Bilden ska ALLTID synas hel och centrerad
    ========================= */
 .gallery{
   width:min(1200px,92%);
   margin:24px auto;
   display:grid;
-  gap:12px;
-  grid-template-columns: repeat(2, 1fr); /* mobil */
-  justify-items:stretch;
+  gap:18px;
+  grid-template-columns: repeat(2, 1fr);   /* mobil */
+  justify-items:center;
+  align-items:start;
 }
-
 @media (min-width:700px){
-  .gallery{ grid-template-columns: repeat(3, 1fr); } /* surfplatta */
+  .gallery{ grid-template-columns: repeat(3, 1fr); } /* tablet */
 }
 @media (min-width:1024px){
   .gallery{ grid-template-columns: repeat(4, 1fr); } /* desktop */
@@ -101,21 +95,25 @@ main{ width:min(1200px,92%); margin:32px auto; }
 .tile{
   background:transparent;
   border:none;
-  border-radius:0;
   padding:0;
+  width:100%;
+  text-align:center;
 }
 .tile img{
   width:100%;
-  height:200px;             /* styr höjden */
-  object-fit:cover;         /* beskär snyggt */
+  height:auto;               /* ingen tvingad höjd → ingen beskärning */
+  max-height:60vh;           /* rimlig övre gräns i mobilen */
+  object-fit:contain;        /* visa hela bilden */
+  object-position:center;    /* och centrera den */
   display:block;
-  border-radius:8px;
+  border-radius:12px;
+  background:#000;           /* svart runtom om den inte fyller ytan */
 }
 .tile figcaption{
-  color:var(--muted);
-  margin-top:6px;
-  font-size:14px;
   text-align:center;
+  color:var(--muted);
+  margin-top:8px;
+  font-size:14px;
 }
 
 /* =========================
@@ -159,10 +157,7 @@ main{ width:min(1200px,92%); margin:32px auto; }
   font-weight:700;
   cursor:pointer;
 }
-.err{
-  color:#ff6b6b;
-  min-height:1.2em;
-}
+.err{ color:#ff6b6b; min-height:1.2em; }
 
 /* =========================
    LIGHTBOX (om du använder)
