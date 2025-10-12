@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Nora > Foton</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <script defer src="../js/guard.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="crumb" href="../home.html">Nora</a>
+    <span class="crumb"> / Foton</span>
+  </header>
+
+  <main class="gallery">
+    <!-- Exempelbilder – byt till dina riktiga -->
+    <figure class="tile">
+      <img src="../assets/img/IMG_101.jpg" alt="Kök – fönster" />
+      <figcaption>Kök – fönster – 1963-10-14 04:43</figcaption>
+    </figure>
+
+    <figure class="tile">
+      <img src="../assets/img/IMG_102.jpg" alt="Hallen" />
+      <figcaption>Hallen – 1963-10-14 04:51</figcaption>
+    </figure>
+  </main>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox" hidden>
+    <button class="close" aria-label="Stäng">×</button>
+    <img alt="" />
+    <p class="caption"></p>
+  </div>
+
+  <script src="../js/ui.js"></script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Nora > Dagbok</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <script defer src="../js/guard.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="crumb" href="../home.html">Nora</a>
+    <span class="crumb"> / Dagbok</span>
+  </header>
+
+  <main class="gallery">
+    <!-- Exempelbilder: byt ut mot dina riktiga -->
+    <figure class="tile">
+  <img src="../assets/img/tystad-rost.jpg" alt="Tystad Röst" />
+  <figcaption>Tystad Röst – Dagboksanteckning</figcaption>
+</figure>
+
+
+    <figure class="tile">
+      <img src="../assets/img/IMG_002.jpg" alt="Anteckning 2" />
+      <figcaption>Anteckning 2 – 1963-10-14 04:28</figcaption>
+    </figure>
+  </main>
+
+  <!-- Lightbox (klick-på-bild-för-att-zooma-funktion) -->
+  <div id="lightbox" class="lightbox" hidden>
+    <button class="close" aria-label="Stäng">×</button>
+    <img alt="" />
+    <p class="caption"></p>
+  </div>
+
+  <script src="../js/ui.js"></script>
+</body>
+</html>
