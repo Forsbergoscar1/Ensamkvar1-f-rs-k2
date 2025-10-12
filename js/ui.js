@@ -1,32 +1,48 @@
 // === ui.js ===
+// Lightbox: öppna på klick, stäng på overlay/knapp/ESC
+(function () {
+  const on = (el, ev, fn) => el && el.addEventListener(ev, fn);
 
-// Klick på bilder öppnar lightbox
-document.addEventListener("click", (e) => {
-  const lb = document.getElementById("lightbox");
-  const imgEl = e.target.closest(".tile img");
+  document.addEventListener("click", (e) => {
+    const img = e.target.closest(".tile img");
+    const lb  = document.getElementById("lightbox");
+    if (img && lb) {
+      // ✅ Hämta text från data-caption eller figcaption
+      const caption = img.dataset.caption || 
+        img.closest(".tile")?.querySelector("figcaption")?.textContent?.trim() || "";
+      lb.querySelector("img").src = img.src;
+      lb.querySelector(".caption").textContent = caption;
+      lb.hidden = false;
+      document.body.style.overflow = "hidden";
+    }
+  });
 
-  // Öppna lightbox
-  if (imgEl && lb) {
-    const fig = e.target.closest(".tile");
-    lb.querySelector("img").src = imgEl.src;
-    lb.querySelector("img").alt = imgEl.alt || "";
-    lb.querySelector(".caption").textContent =
-      fig?.querySelector("figcaption")?.textContent || "";
-    lb.hidden = false;
-  }
+  // Stäng på overlay eller knapp
+  document.addEventListener("click", (e) => {
+    const lb = document.getElementById("lightbox");
+    if (!lb || lb.hidden) return;
+    if (e.target.matches(".lightbox, .lightbox .close")) {
+      lb.hidden = true;
+      document.body.style.overflow = "";
+    }
+  });
 
-  // Stäng lightbox
-  if (e.target.matches(".lightbox, .lightbox .close")) {
-    lb.hidden = true;
-  }
-});
+  // Stäng på Escape
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      const lb = document.getElementById("lightbox");
+      if (lb && !lb.hidden) {
+        lb.hidden = true;
+        document.body.style.overflow = "";
+      }
+    }
+  });
 
-// Logout-knappen i home.html
-const logout = document.getElementById("logoutBtn");
-if (logout) {
-  logout.addEventListener("click", (e) => {
+  // Logout (hem)
+  const logout = document.getElementById("logoutBtn");
+  on(logout, "click", (e) => {
     e.preventDefault();
     sessionStorage.removeItem("noraUnlocked");
     window.location.href = "index.html";
   });
-}
+})();

@@ -17,10 +17,13 @@
       --accent:#a31621;
     }
     *{box-sizing:border-box}
+
     html,body{
       margin:0; padding:0; height:100%;
       background:var(--bg); color:var(--text);
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;
+      overflow-x:hidden;       /* bara vertikal scroll */
+      touch-action: pan-y;
     }
 
     /* Topbar */
@@ -38,21 +41,26 @@
     .logout:hover{color:var(--text)}
 
     /* ======= GALLERI ======= */
-    /* 2 kolumner på mobil, 3 på tablet, 4 på desktop */
+    /* 2 kolumner mobil, 3 tablet, 4 desktop – alltid inom skärmen */
     .gallery{
-      width:min(1200px,92%);
+      width:100%;
+      max-width:1000px;
       margin:24px auto;
+      padding:0 8px;
       display:grid;
-      gap:16px;
+      gap:12px;
       grid-template-columns:repeat(2, minmax(0,1fr)); /* mobil */
-      justify-items:center;
+      justify-items:stretch;
       align-items:start;
     }
     @media (min-width:700px){
       .gallery{ grid-template-columns:repeat(3, minmax(0,1fr)); }
     }
     @media (min-width:1024px){
-      .gallery{ grid-template-columns:repeat(4, minmax(0,1fr)); }
+      .gallery{
+        grid-template-columns:repeat(4, minmax(0,1fr));
+        max-width:1000px;
+      }
     }
 
     .tile{
@@ -63,15 +71,15 @@
       padding:0;
     }
 
-    /* NYCKELN: visa hela bilden, aldrig beskäras */
+    /* Visa HELA bilden, centrerad, utan beskärning */
     .tile img{
       width:100%;
-      height:auto;            /* ingen tvångshöjd → inget klipps */
-      object-fit:contain;     /* säkerhetsnät om höjd sätts någon annanstans */
+      height:auto;            /* aldrig tvångshöjd → inget klipps */
+      object-fit:contain;     /* hel bild */
       object-position:center; /* centrerad */
       display:block;
       border-radius:12px;
-      background:#000;        /* svart runt om om den inte fyller helt */
+      background:#000;        /* svart runt om vid letterbox */
     }
 
     .tile figcaption{
@@ -79,6 +87,24 @@
       margin-top:8px;
       font-size:14px;
       text-align:center;
+    }
+
+    /* Lightbox (fallback om din globala CSS saknar detta) */
+    .lightbox[hidden]{display:none}
+    .lightbox{
+      position:fixed; inset:0; z-index:50;
+      display:grid; place-items:center;
+      background:rgba(0,0,0,.88);
+      padding:24px;
+    }
+    .lightbox img{
+      max-width:90vw; max-height:70vh;
+      display:block; border-radius:12px;
+    }
+    .lightbox .caption{ color:var(--muted); margin-top:8px; text-align:center }
+    .lightbox .close{
+      position:absolute; top:14px; right:18px;
+      font-size:28px; background:transparent; border:0; color:#fff; cursor:pointer;
     }
   </style>
 </head>
@@ -89,39 +115,47 @@
   </header>
 
   <main class="gallery">
+    <!-- 8 bilder, alla med data-caption och samma visningstext “oscar nu” -->
     <figure class="tile">
-      <img src="../assets/img/tystad-rost.jpg" alt="Tystad Röst 1" />
-      <figcaption>Tystad Röst – Dagboksanteckning 1</figcaption>
+      <img src="../assets/img/tystad-rost.jpg" data-caption="oscar nu" />
+      <figcaption>oscar nu</figcaption>
     </figure>
     <figure class="tile">
-      <img src="../assets/img/tystad-rost.jpg" alt="Tystad Röst 2" />
-      <figcaption>Tystad Röst – Dagboksanteckning 2</figcaption>
+      <img src="../assets/img/tystad-rost.jpg" data-caption="oscar nu" />
+      <figcaption>oscar nu</figcaption>
     </figure>
     <figure class="tile">
-      <img src="../assets/img/tystad-rost.jpg" alt="Tystad Röst 3" />
-      <figcaption>Tystad Röst – Dagboksanteckning 3</figcaption>
+      <img src="../assets/img/tystad-rost.jpg" data-caption="oscar nu" />
+      <figcaption>oscar nu</figcaption>
     </figure>
     <figure class="tile">
-      <img src="../assets/img/tystad-rost.jpg" alt="Tystad Röst 4" />
-      <figcaption>Tystad Röst – Dagboksanteckning 4</figcaption>
+      <img src="../assets/img/tystad-rost.jpg" data-caption="oscar nu" />
+      <figcaption>oscar nu</figcaption>
     </figure>
     <figure class="tile">
-      <img src="../assets/img/tystad-rost.jpg" alt="Tystad Röst 5" />
-      <figcaption>Tystad Röst – Dagboksanteckning 5</figcaption>
+      <img src="../assets/img/tystad-rost.jpg" data-caption="oscar nu" />
+      <figcaption>oscar nu</figcaption>
     </figure>
     <figure class="tile">
-      <img src="../assets/img/tystad-rost.jpg" alt="Tystad Röst 6" />
-      <figcaption>Tystad Röst – Dagboksanteckning 6</figcaption>
+      <img src="../assets/img/tystad-rost.jpg" data-caption="oscar nu" />
+      <figcaption>oscar nu</figcaption>
     </figure>
     <figure class="tile">
-      <img src="../assets/img/tystad-rost.jpg" alt="Tystad Röst 7" />
-      <figcaption>Tystad Röst – Dagboksanteckning 7</figcaption>
+      <img src="../assets/img/tystad-rost.jpg" data-caption="oscar nu" />
+      <figcaption>oscar nu</figcaption>
     </figure>
     <figure class="tile">
-      <img src="../assets/img/tystad-rost.jpg" alt="Tystad Röst 8" />
-      <figcaption>Tystad Röst – Dagboksanteckning 8</figcaption>
+      <img src="../assets/img/tystad-rost.jpg" data-caption="oscar nu" />
+      <figcaption>oscar nu</figcaption>
     </figure>
   </main>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox" hidden>
+    <button class="close" aria-label="Stäng">×</button>
+    <img alt="" />
+    <p class="caption"></p>
+  </div>
 
   <script src="../js/ui.js"></script>
 </body>
