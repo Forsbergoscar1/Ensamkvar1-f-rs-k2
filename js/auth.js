@@ -1,7 +1,15 @@
 // === auth.js ===
 // Hanterar inloggningen till Nora-mappen
 
-const PASSWORD = "astrid1963"; // <-- ändra lösenordet här om du vill
+const VALID_PASSWORDS = [
+  "20211017",
+  "2021-10-17",
+  "2021/10/17",
+  "17-10-2021",
+  "17/10/2021",
+  "17102021"
+];
+
 const form = document.getElementById("loginForm");
 const err = document.getElementById("err");
 const pwd = document.getElementById("password");
@@ -14,7 +22,9 @@ if (sessionStorage.getItem("noraUnlocked") === "1") {
 // Lyssna på formuläret
 form.addEventListener("submit", (e) => {
   e.preventDefault();
-  if (pwd.value.trim() === PASSWORD) {
+  const input = pwd.value.trim();
+
+  if (VALID_PASSWORDS.includes(input)) {
     sessionStorage.setItem("noraUnlocked", "1");
     window.location.href = "home.html";
   } else {
