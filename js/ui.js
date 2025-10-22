@@ -38,6 +38,13 @@
     }
   });
 
+  // ===== Lightbox zoom toggle =====
+  document.addEventListener('click', function (e) {
+    const img = e.target.closest('.lightbox img');
+    if (!img) return;
+    img.classList.toggle('zoomed');
+  });
+
   // Logout (hem)
   const logout = document.getElementById("logoutBtn");
   on(logout, "click", (e) => {

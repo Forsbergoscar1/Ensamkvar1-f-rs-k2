@@ -270,4 +270,19 @@ main, .gallery{
     background: #000 !important;
     transform: none !important;       /* nollar ev. tidigare skalning */
   }
+
+  .lightbox img {
+  max-width: 90vw;
+  max-height: 70vh;
+  display: block;
+  border-radius: 12px;
+  transition: transform 0.3s ease;
+  cursor: zoom-in;
+}
+
+.lightbox img.zoomed {
+  transform: scale(2);
+  cursor: zoom-out;
+}
+
 }
