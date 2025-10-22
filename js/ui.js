@@ -5,7 +5,7 @@
 
   document.addEventListener("click", (e) => {
     const img = e.target.closest(".tile img");
-    const lb  = document.getElementById("lightbox");
+    const lb = document.getElementById("lightbox");
     if (img && lb) {
       // ✅ Hämta text från data-caption eller figcaption
       const caption = img.dataset.caption || 
@@ -38,13 +38,6 @@
     }
   });
 
-  // ===== Lightbox zoom toggle =====
-  document.addEventListener('click', function (e) {
-    const img = e.target.closest('.lightbox img');
-    if (!img) return;
-    img.classList.toggle('zoomed');
-  });
-
   // Logout (hem)
   const logout = document.getElementById("logoutBtn");
   on(logout, "click", (e) => {
@@ -52,4 +45,48 @@
     sessionStorage.removeItem("noraUnlocked");
     window.location.href = "index.html";
   });
+
+  // ===== Lightbox pinch-zoom på bilden (mobil) =====
+(function () {
+  const lightbox = document.getElementById("lightbox");
+  const img = lightbox?.querySelector("img");
+
+  if (!img) return;
+
+  let startDist = 0;
+  let currentScale = 1;
+
+  lightbox.addEventListener("touchstart", (e) => {
+    if (e.touches.length === 2) {
+      e.preventDefault();
+      const dx = e.touches[0].pageX - e.touches[1].pageX;
+      const dy = e.touches[0].pageY - e.touches[1].pageY;
+      startDist = Math.hypot(dx, dy);
+    }
+  }, { passive: false });
+
+  lightbox.addEventListener("touchmove", (e) => {
+    if (e.touches.length === 2) {
+      e.preventDefault();
+      const dx = e.touches[0].pageX - e.touches[1].pageX;
+      const dy = e.touches[0].pageY - e.touches[1].pageY;
+      const dist = Math.hypot(dx, dy);
+      const scale = Math.min(Math.max(dist / startDist, 1), 3); // mellan 1x och 3x
+      currentScale = scale;
+      img.style.transform = `scale(${scale})`;
+    }
+  }, { passive: false });
+
+  lightbox.addEventListener("touchend", (e) => {
+    if (e.touches.length < 2 && currentScale !== 1) {
+      // liten “snap-back” om man släpper fingrarna
+      setTimeout(() => {
+        img.style.transform = "scale(1)";
+        currentScale = 1;
+      }, 150);
+    }
+  });
+});
+
+
 })();

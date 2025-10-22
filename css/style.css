@@ -271,18 +271,18 @@ main, .gallery{
     transform: none !important;       /* nollar ev. tidigare skalning */
   }
 
-  .lightbox img {
-  max-width: 90vw;
-  max-height: 70vh;
-  display: block;
-  border-radius: 12px;
-  transition: transform 0.3s ease;
-  cursor: zoom-in;
+
+  /* === Pinch-zoom direkt på bilden i lightbox === */
+.lightbox {
+  overflow: hidden;
+  touch-action: none; /* vi hanterar pinch själva */
 }
 
-.lightbox img.zoomed {
-  transform: scale(2);
-  cursor: zoom-out;
+.lightbox img {
+  transform-origin: center center;
+  transition: transform 0.1s ease;
+  touch-action: none; /* så vi kan läsa gester */
 }
 
+ 
 }
