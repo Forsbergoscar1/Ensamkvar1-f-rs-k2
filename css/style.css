@@ -13,8 +13,11 @@
 * { box-sizing:border-box }
 
 html, body {
-  margin:0; padding:0; height:100%;
-  background:var(--bg); color:var(--text);
+  margin:0;
+  padding:0;
+  height:100%;
+  background:var(--bg);
+  color:var(--text);
   font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;
   overflow-x:hidden;
   touch-action:pan-y;
@@ -34,8 +37,12 @@ main {
    === TOPBAR ===
    ========================================================= */
 .topbar {
-  position:sticky; top:0; z-index:5;
-  display:flex; justify-content:center; align-items:center;
+  position:sticky;
+  top:0;
+  z-index:5;
+  display:flex;
+  justify-content:center;
+  align-items:center;
   padding:12px;
   border-bottom:1px solid var(--border);
   background:#0a0a0a;
@@ -46,15 +53,17 @@ main {
   margin:0 6px;
   font-weight:500;
 }
-.crumb:hover { color:var(--text) }
+.crumb:hover { color:var(--text); }
 .logout {
-  position:absolute; right:12px; top:50%;
+  position:absolute;
+  right:12px;
+  top:50%;
   transform:translateY(-50%);
   color:var(--muted);
   text-decoration:none;
   font-size:15px;
 }
-.logout:hover { color:var(--text) }
+.logout:hover { color:var(--text); }
 
 /* =========================================================
    === UTFORSKAR-LISTA ===
@@ -67,7 +76,9 @@ main {
 }
 .folder-list { display:flex; flex-direction:column; gap:6px; }
 .row {
-  display:flex; align-items:center; gap:10px;
+  display:flex;
+  align-items:center;
+  gap:10px;
   padding:10px 2px;
   background:transparent;
   border:none;
@@ -83,25 +94,22 @@ main {
    === GALLERI (bilder) ===
    ========================================================= */
 .gallery {
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:8px;
   width:100%;
+  max-width:1000px;
   margin:16px auto 24px;
   padding:0 8px;
-  display:grid;
-  gap:8px;
-  grid-template-columns:repeat(2,1fr);
-  justify-items:stretch;
+  justify-items:center;
   align-items:start;
+  overflow:hidden;
 }
 @media (min-width:700px){
-  .gallery{ gap:10px; grid-template-columns:repeat(3,1fr); }
+  .gallery{ grid-template-columns:repeat(3,1fr); gap:10px; }
 }
 @media (min-width:1024px){
-  .gallery{
-    gap:12px;
-    grid-template-columns:repeat(4,1fr);
-    max-width:1000px;
-    margin-left:auto; margin-right:auto;
-  }
+  .gallery{ grid-template-columns:repeat(4,1fr); gap:12px; }
 }
 
 .tile {
@@ -114,9 +122,9 @@ main {
 .tile img {
   width:100%;
   height:auto;
+  display:block;
   object-fit:contain;
   object-position:center;
-  display:block;
   border-radius:10px;
   background:#000;
 }
@@ -190,7 +198,7 @@ main {
 /* =========================================================
    === LIGHTBOX MED PINCH-ZOOM ===
    ========================================================= */
-.lightbox[hidden] { display:none }
+.lightbox[hidden] { display:none; }
 
 .lightbox {
   position:fixed;
@@ -234,57 +242,50 @@ main {
 }
 
 /* =========================================================
-   === HÅRDLÅS & MOBIL-FIX ===
+   === RESPONSIVITET & BUGG-FIX ===
    ========================================================= */
-html, body { overflow-x:hidden; touch-action:pan-y; }
-
-/* 🔧 Fixat: inga 100vw längre – korrekt bredd */
-main, .gallery {
-  width:100%;
-  max-width:1000px;
-  margin-left:auto;
-  margin-right:auto;
-  padding-left:8px;
-  padding-right:8px;
-  box-sizing:border-box;
-}
-
-@media (min-width:1024px){
-  main, .gallery { max-width:1000px; }
-}
-
 @media (max-width:768px){
-  html, body {
-    overflow-x:hidden !important;
-    touch-action:pan-y !important;
-  }
   main, .gallery {
-    width:100% !important;
-    max-width:100% !important;
-    margin:16px auto 24px !important;
-    padding:0 8px !important;
+    width:100%;
+    max-width:100%;
+    margin:16px auto 24px;
+    padding:0 8px;
   }
   .gallery {
-    display:grid !important;
-    gap:8px !important;
-    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
-  }
-  .tile {
-    width:100% !important;
-    max-width:100% !important;
-    border:0 !important;
-    background:transparent !important;
-    text-align:center !important;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:8px;
   }
   .tile img {
-    width:100% !important;
-    max-width:100% !important;
-    height:auto !important;
-    object-fit:contain !important;
-    object-position:center !important;
-    border-radius:10px !important;
-    background:#000 !important;
-    transform:none !important;
+    border-radius:10px;
+    background:#000;
   }
+}
+
+/* =========================================================
+   === EXTRA FÖR SÄKER CENTRERING ===
+   ========================================================= */
+.gallery {
+  justify-content:center;
+}
+.gallery .tile {
+  max-width:100%;
+}
+.gallery .tile img {
+  max-width:100%;
+  height:auto;
+  display:block;
+}
+
+/* =========================================================
+   === FÖRHINDRA AVKLIPPNING HÖGERKANT ===
+   ========================================================= */
+body, html {
+  overflow-x:hidden !important;
+}
+.gallery {
+  overflow:hidden !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+  width:calc(100% - 0px) !important;
 }
 
