@@ -49,7 +49,7 @@
     window.location.href = "index.html";
   });
 
-  // ===== Lightbox pinch-zoom + pan (mobil) =====
+  // ===== Lightbox pinch-zoom + pan (riktig touch-zoom) =====
   const lb = document.getElementById("lightbox");
   const img = lb?.querySelector("img");
   if (!lb || !img) return;
@@ -57,13 +57,12 @@
   let startDist = 0;
   let startScale = 1;
   let currentScale = 1;
-  let startX = 0, startY = 0;
-  let moveX = 0, moveY = 0;
   let originX = 0, originY = 0;
+  let offsetX = 0, offsetY = 0;
+  let lastOffsetX = 0, lastOffsetY = 0;
 
   lb.addEventListener("touchstart", (e) => {
     if (e.touches.length === 2) {
-      // pinch-zoom start
       e.preventDefault();
       const [t1, t2] = e.touches;
       startDist = Math.hypot(t2.pageX - t1.pageX, t2.pageY - t1.pageY);
@@ -71,38 +70,49 @@
       originX = (t1.pageX + t2.pageX) / 2;
       originY = (t1.pageY + t2.pageY) / 2;
     } else if (e.touches.length === 1 && currentScale > 1) {
-      // pan start
+      // börja panorera
       e.preventDefault();
-      startX = e.touches[0].pageX - moveX;
-      startY = e.touches[0].pageY - moveY;
+      const t = e.touches[0];
+      originX = t.pageX - lastOffsetX;
+      originY = t.pageY - lastOffsetY;
     }
-  }, { passive: false });
+  }, { passive:false });
 
   lb.addEventListener("touchmove", (e) => {
     if (e.touches.length === 2) {
-      // pinch-zoom in progress
       e.preventDefault();
       const [t1, t2] = e.touches;
       const dist = Math.hypot(t2.pageX - t1.pageX, t2.pageY - t1.pageY);
       const scale = Math.min(Math.max((dist / startDist) * startScale, 1), 4);
       currentScale = scale;
-      img.style.transform = `translate(${moveX}px, ${moveY}px) scale(${scale})`;
-    } else if (e.touches.length === 1 && currentScale > 1) {
-      // pan in progress
-      e.preventDefault();
-      moveX = e.touches[0].pageX - startX;
-      moveY = e.touches[0].pageY - startY;
-      img.style.transform = `translate(${moveX}px, ${moveY}px) scale(${currentScale})`;
-    }
-  }, { passive: false });
 
-  lb.addEventListener("touchend", (e) => {
-    // Återställ om zoomad
-    if (currentScale !== 1 && e.touches.length === 0) {
+      // räkna ut mittpunkten mellan fingrarna
+      const midX = (t1.pageX + t2.pageX) / 2;
+      const midY = (t1.pageY + t2.pageY) / 2;
+
+      // flytta bilden så zoom sker kring fingrarna
+      offsetX = (midX - originX);
+      offsetY = (midY - originY);
+
+      img.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
+    } else if (e.touches.length === 1 && currentScale > 1) {
+      e.preventDefault();
+      const t = e.touches[0];
+      offsetX = t.pageX - originX;
+      offsetY = t.pageY - originY;
+      lastOffsetX = offsetX;
+      lastOffsetY = offsetY;
+      img.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${currentScale})`;
+    }
+  }, { passive:false });
+
+  lb.addEventListener("touchend", () => {
+    // återställ när användaren släpper
+    if (currentScale !== 1) {
       setTimeout(() => {
         img.style.transform = "translate(0,0) scale(1)";
         currentScale = 1;
-        moveX = 0; moveY = 0;
+        offsetX = offsetY = lastOffsetX = lastOffsetY = 0;
       }, 150);
     }
   });
