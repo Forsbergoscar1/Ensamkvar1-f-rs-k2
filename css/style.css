@@ -17,7 +17,7 @@ html, body {
   background:var(--bg); color:var(--text);
   font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;
   overflow-x:hidden;
-  touch-action:pan-y;            /* lås sidled på resten av sidan */
+  touch-action:pan-y;
 }
 
 /* =========================================================
@@ -201,7 +201,7 @@ main {
   padding:24px;
   background:rgba(0,0,0,.88);
   overflow:hidden;
-  touch-action:none;          /* vi hanterar pinch själva */
+  touch-action:none;
 }
 
 .lightbox img {
@@ -212,7 +212,7 @@ main {
   background:#000;
   transform-origin:center center;
   transition:transform 0.05s linear;
-  touch-action:none;          /* nödvändig för att läsa gester */
+  touch-action:none;
   will-change:transform;
 }
 
@@ -238,14 +238,19 @@ main {
    ========================================================= */
 html, body { overflow-x:hidden; touch-action:pan-y; }
 
+/* 🔧 Fixat: inga 100vw längre – korrekt bredd */
 main, .gallery {
-  width:100vw; max-width:100vw;
-  margin-left:auto; margin-right:auto;
-  padding-left:8px; padding-right:8px;
+  width:100%;
+  max-width:1000px;
+  margin-left:auto;
+  margin-right:auto;
+  padding-left:8px;
+  padding-right:8px;
   box-sizing:border-box;
 }
+
 @media (min-width:1024px){
-  main, .gallery{ max-width:1000px; }
+  main, .gallery { max-width:1000px; }
 }
 
 @media (max-width:768px){
