@@ -6,56 +6,170 @@
   <title>Nora – Dagbok</title>
   <link rel="stylesheet" href="../css/style.css?v=10" />
   <script defer src="../js/guard.js"></script>
+  <style>
+    /* === Lightbox & layout === */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.9);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+    }
+
+    .lightbox img,
+    .lightbox audio {
+      max-width: 90%;
+      max-height: 80%;
+    }
+
+    .lightbox[hidden] {
+      display: none;
+    }
+
+    .lightbox .close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      font-size: 2rem;
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1rem;
+      padding: 1rem;
+    }
+
+    .tile img {
+      width: 100%;
+      height: auto;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: transform 0.2s;
+    }
+
+    .tile img:hover {
+      transform: scale(1.03);
+    }
+
+    figcaption {
+      text-align: center;
+      color: #555;
+      margin-top: 0.3rem;
+    }
+  </style>
 </head>
+
 <body>
   <header class="topbar">
-    <div class="crumb"><a href="../home.html" style="color:inherit;text-decoration:none;">Nora</a> / Dagbok</div>
+    <div class="crumb">
+      <a href="../home.html" style="color: inherit; text-decoration: none;">Nora</a> / Dagbok
+    </div>
     <a class="logout" href="#" id="logoutBtn">Lås</a>
   </header>
 
   <main class="gallery">
-    <!-- 8 exempelbilder -->
     <figure class="tile">
-      <img src="../assets/img/Alex-min.jpg" data-caption="" />
+      <img src="../assets/img/Alex-min.jpg" data-caption=""/>
       <figcaption></figcaption>
     </figure>
+
     <figure class="tile">
-      <img src="../assets/img/bankeniskogen.jpg" data-caption="" />
+      <img src="../assets/img/bankeniskogen.jpg" data-caption=""/>
       <figcaption></figcaption>
     </figure>
+
     <figure class="tile">
-      <img src="../assets/img/otrogen.jpg" data-caption="" />
+      <img src="../assets/img/otrogen.jpg" data-caption=""/>
       <figcaption></figcaption>
     </figure>
+
     <figure class="tile">
-      <img src="../assets/img/smsconvo.jpg" data-caption="" />
+      <img src="../assets/img/smsconvo.jpg" data-caption=""/>
       <figcaption></figcaption>
     </figure>
+
     <figure class="tile">
-      <img src="../assets/img/tystad-rost.jpg" data-caption="oscar nu" />
+      <img src="../assets/img/tystad-rost.jpg" data-caption="oscar nu"/>
       <figcaption>oscar nu</figcaption>
     </figure>
+
     <figure class="tile">
-      <img src="../assets/img/tystad-rost.jpg" data-caption="oscar nu" />
+      <img src="../assets/img/tystad-rost.jpg" data-caption="oscar nu"/>
       <figcaption>oscar nu</figcaption>
     </figure>
+
     <figure class="tile">
-      <img src="../assets/img/tystad-rost.jpg" data-caption="oscar nu" />
+      <img src="../assets/img/tystad-rost.jpg" data-caption="oscar nu"/>
       <figcaption>oscar nu</figcaption>
     </figure>
+
+
+
+    <!-- 🔊 Ny tile för ljudfilen -->
     <figure class="tile">
-      <img src="../assets/img/tystad-rost.jpg" data-caption="oscar nu" />
-      <figcaption>oscar nu</figcaption>
+      <img src="../assets/img/sound-icon.jpg"
+           data-audio="../assets/audio/tystad-rost-ljud.mp3"
+           data-caption="Lyssna på inspelningen" />
+      <figcaption>Lyssna</figcaption>
     </figure>
   </main>
 
-  <!-- Lightbox -->
+  <!-- === Lightbox === -->
   <div id="lightbox" class="lightbox" hidden>
     <button class="close" aria-label="Stäng">×</button>
     <img alt="" />
+    <audio controls hidden></audio>
     <p class="caption"></p>
   </div>
 
-  <script src="../js/ui.js"></script>
+  <script>
+    // === Lightbox-funktion ===
+    document.querySelectorAll('.gallery img').forEach(img => {
+      img.addEventListener('click', () => {
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = lightbox.querySelector('img');
+        const lightboxAudio = lightbox.querySelector('audio');
+        const caption = lightbox.querySelector('.caption');
+        const audioSrc = img.dataset.audio;
+        const captionText = img.dataset.caption || '';
+
+        // Reset
+        lightboxImg.hidden = true;
+        lightboxAudio.hidden = true;
+
+        if (audioSrc) {
+          // Ljudfil
+          lightboxAudio.src = audioSrc;
+          lightboxAudio.hidden = false;
+          lightboxAudio.load();
+          // Vill du att ljudet startar automatiskt? Lägg till raden nedan:
+          // lightboxAudio.play();
+        } else {
+          // Bild
+          lightboxImg.src = img.src;
+          lightboxImg.hidden = false;
+        }
+
+        caption.textContent = captionText;
+        lightbox.removeAttribute('hidden');
+      });
+    });
+
+    // === Stängknapp ===
+    document.querySelector('#lightbox .close').addEventListener('click', () => {
+      const lightbox = document.getElementById('lightbox');
+      const audio = lightbox.querySelector('audio');
+      if (!audio.hidden) audio.pause();
+      lightbox.setAttribute('hidden', '');
+    });
+  </script>
 </body>
 </html>
