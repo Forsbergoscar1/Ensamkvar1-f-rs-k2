@@ -234,4 +234,22 @@ main {
    === FÖRHINDRA HÖGER-SCROLL ===
    ========================================================= */
 body, html { overflow-x:hidden !important; }
+/* ====== FORCE GALLERY COLUMN COUNT, LAST RULE WINS ====== */
+:root {
+  --gallery-mobile: 2;   /* mobil & tablet */
+  --gallery-desktop: 4;  /* desktop */
+}
+
+.gallery {
+  display: grid !important;
+  grid-template-columns: repeat(var(--gallery-mobile), minmax(0,1fr)) !important;
+  gap: 8px !important;
+}
+
+@media (min-width: 1024px) {
+  .gallery {
+    grid-template-columns: repeat(var(--gallery-desktop), minmax(0,1fr)) !important;
+    gap: 12px !important;
+  }
+}
 
