@@ -10,7 +10,7 @@
     });
   }
 
-  // ===== Lightbox-element (måste finnas i sidan) =====
+  // ===== Lightbox-element =====
   const lightbox = document.getElementById("lightbox");
   if (!lightbox) return;
 
@@ -30,23 +30,27 @@
     const audioSrc = img.dataset.audio || null;
     const captionText = img.dataset.caption || "";
 
-    // Reset
+    // Reset zoom och position
     scale = 1;
     offsetX = offsetY = lastOffsetX = lastOffsetY = 0;
     lbImg.style.transform = "translate(0,0) scale(1)";
 
     if (audioSrc && lbAudio) {
+      // === VISA LJUD ===
       lbImg.hidden = true;
+      lbImg.src = ""; // ✅ Viktigt: rensa gammal bild helt
       lbAudio.hidden = false;
       lbAudio.src = audioSrc;
       lbAudio.load();
     } else {
+      // === VISA BILD ===
+      lbImg.src = img.src;
       lbImg.hidden = false;
       if (lbAudio) {
-        lbAudio.hidden = true;
         lbAudio.pause();
+        lbAudio.hidden = true;
+        lbAudio.src = "";
       }
-      lbImg.src = img.src;
     }
 
     lbCaption.textContent = captionText;
@@ -54,7 +58,7 @@
     document.body.style.overflow = "hidden";
   });
 
-  // ===== Stäng Lightbox (klick utanför eller på X) =====
+  // ===== Stäng Lightbox =====
   function closeLightbox() {
     if (!lightbox.hidden) {
       if (lbAudio && !lbAudio.hidden) lbAudio.pause();
@@ -63,20 +67,15 @@
     }
   }
 
-  if (closeBtn) {
-    closeBtn.addEventListener("click", closeLightbox);
-  }
-
+  if (closeBtn) closeBtn.addEventListener("click", closeLightbox);
   lightbox.addEventListener("click", (e) => {
     if (e.target === lightbox) closeLightbox();
   });
-
-  // ===== Stäng med ESC =====
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") closeLightbox();
   });
 
-  // ===== Zoom med musens scroll =====
+  // ===== Zoom med mus =====
   lbImg?.addEventListener("wheel", (e) => {
     e.preventDefault();
     scale += e.deltaY * -0.001;
@@ -84,7 +83,7 @@
     lbImg.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
   });
 
-  // ===== Pinch-zoom + Pan med touch =====
+  // ===== Touch / pinch-zoom =====
   lightbox.addEventListener(
     "touchstart",
     (e) => {
@@ -112,10 +111,8 @@
         const [t1, t2] = e.touches;
         const dist = Math.hypot(t2.pageX - t1.pageX, t2.pageY - t1.pageY);
         scale = Math.min(Math.max((dist / startDist) * startScale, 1), 4);
-
         offsetX = (t1.pageX + t2.pageX) / 2 - originX;
         offsetY = (t1.pageY + t2.pageY) / 2 - originY;
-
         lbImg.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
       } else if (e.touches.length === 1 && scale > 1) {
         e.preventDefault();
